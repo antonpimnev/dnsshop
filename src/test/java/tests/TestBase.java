@@ -10,8 +10,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import static com.codeborne.selenide.Selenide.executeJavaScript;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.*;
 
 public class TestBase {
 
@@ -21,7 +21,7 @@ public class TestBase {
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.browserVersion = System.getProperty("browser_version", "100.0");
         Configuration.browserSize = System.getProperty("browser_size", "1920x1080");
-        //Configuration.remote = System.getProperty("remote_url", "https://user1:1234@selenoid.autotests.cloud/wd/hub");
+        Configuration.remote = System.getProperty("remote_url", "https://user1:1234@selenoid.autotests.cloud/wd/hub");
         Configuration.pageLoadTimeout = 10000;
         Configuration.timeout = 10000;
         Configuration.headless = false;
@@ -40,6 +40,8 @@ public class TestBase {
         Selenide.clearBrowserCookies();
         Selenide.clearBrowserLocalStorage();
         executeJavaScript("sessionStorage.clear();");
+        $(".v-confirm-city_XmH").shouldBe(visible);
+        $x("//*[text()[contains(.,'Всё верно')]]").click();
     }
 
     @AfterEach
